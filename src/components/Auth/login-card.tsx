@@ -13,13 +13,18 @@ import Link from "next/link";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import TextField from "@/components/Form/text-field";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { loginUser } from "@/lib/client-actions/users";
 
 const LoginSchema = Yup.object().shape({
-  username: Yup.string().required("Required"),
+  email: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string().min(8, "Too Short!").required("Required"),
 });
 
 function LoginCard() {
+  const mutation = useMutation({ mutationFn: loginUser });
+
   return (
     <Card className="w-96">
       <CardHeader>
@@ -32,10 +37,19 @@ function LoginCard() {
         </CardDescription>
       </CardHeader>
       <Formik
-        initialValues={{ username: "", password: "" }}
+        initialValues={{ email: "", password: "" }}
         validationSchema={LoginSchema}
-        onSubmit={(values) => {
-          console.log(values);
+        onSubmit={(values, { setSubmitting }) => {
+          mutation.mutate(values, {
+            onSuccess: () => {
+              toast.success("Logged in successfully");
+              setSubmitting(false);
+            },
+            onError: (error) => {
+              toast.error(error.message);
+              setSubmitting(false);
+            },
+          });
         }}
       >
         {({ isSubmitting }) => (

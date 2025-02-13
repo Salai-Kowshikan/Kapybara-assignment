@@ -19,4 +19,24 @@ async function registerUser(values: {
   return response.json();
 }
 
-export { registerUser };
+async function loginUser(values: {
+  email: string;
+  password: string;
+}) {
+  const response = await fetch("/api/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(values),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to login user');
+  }
+
+  return response.json();
+}
+
+export { registerUser, loginUser };

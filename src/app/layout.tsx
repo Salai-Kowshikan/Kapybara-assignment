@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/Sidebar";
 
@@ -35,6 +36,7 @@ export default function RootLayout({
           <div className="flex flex-col w-full">
             <Header />
             {children}
+            <Footer />
           </div>
         </SidebarProvider>
       </body>

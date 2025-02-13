@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "../ui/button";
 import { SidebarTrigger } from "../ui/sidebar";
 
@@ -7,8 +8,12 @@ function Header() {
       <SidebarTrigger className="p-4" />
       Kapybara - Your partner in crime
       <div className="ml-auto flex gap-4">
-        <Button>Sign-up</Button>
-        <Button>Log-in</Button>
+        <Link href="/login" passHref>
+          <Button>Login</Button>
+        </Link>
+        <Link href="/sign-up" passHref>
+          <Button>Sign-up</Button>
+        </Link>
       </div>
     </header>
   );

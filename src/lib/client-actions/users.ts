@@ -39,4 +39,17 @@ async function loginUser(values: {
   return response.json();
 }
 
-export { registerUser, loginUser };
+async function logoutUser() {
+  const response = await fetch("/api/logout", {
+    method: "GET",
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to logout user');
+  }
+
+  return response.json();
+}
+
+export { registerUser, loginUser, logoutUser };

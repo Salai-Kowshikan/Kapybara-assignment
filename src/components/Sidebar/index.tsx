@@ -11,7 +11,6 @@ import { usePathname } from "next/navigation";
 
 export function AppSidebar() {
   const currentPath = usePathname();
-  console.log(currentPath);
 
   if (!currentPath.startsWith('/dashboard')) {
     return null;

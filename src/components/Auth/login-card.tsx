@@ -16,7 +16,8 @@ import TextField from "@/components/Form/text-field";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { loginUser } from "@/lib/client-actions/users";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import { useLoadingStore } from "@/stores/loading-store";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -26,6 +27,7 @@ const LoginSchema = Yup.object().shape({
 function LoginCard() {
   const mutation = useMutation({ mutationFn: loginUser });
   const router = useRouter();
+  const setLoading = useLoadingStore((state) => state.setLoading);
 
   return (
     <Card className="w-96">
@@ -42,14 +44,17 @@ function LoginCard() {
         initialValues={{ email: "", password: "" }}
         validationSchema={LoginSchema}
         onSubmit={(values, { setSubmitting }) => {
+          setLoading(true);
           mutation.mutate(values, {
             onSuccess: () => {
               toast.success("Logged in successfully");
               setSubmitting(false);
-              router.replace("/dashboard")
+              setLoading(false);
+              router.replace("/dashboard");
             },
             onError: (error) => {
               toast.error(error.message);
+              setLoading(false);
               setSubmitting(false);
             },
           });

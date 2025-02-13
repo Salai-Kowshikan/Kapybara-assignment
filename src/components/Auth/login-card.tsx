@@ -34,7 +34,7 @@ function LoginCard() {
       <CardHeader>
         <CardTitle>Log into your Kapybara account</CardTitle>
         <CardDescription>
-          Don't have an account yet? &nbsp;
+          Don&apos;t have an account yet? &nbsp;
           <Link href="/sign-up" replace scroll={false}>
             Sign up here
           </Link>

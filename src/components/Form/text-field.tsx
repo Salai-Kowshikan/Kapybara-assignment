@@ -9,7 +9,7 @@ interface TextFieldProps {
 }
 
 function TextField({ label, placeholder, name, type , ...props }: TextFieldProps) {
-  const [field, meta] = useField(name);
+  const [field] = useField(name);
 
   return (
     <div className="mb-4">

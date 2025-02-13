@@ -12,7 +12,7 @@ export async function middleware(request: NextRequest) {
   }
 
   try {
-    const payload = await verifyJWT(token);
+    await verifyJWT(token);
     return NextResponse.next();
   } catch (error) {
     console.error('Invalid token:', error);

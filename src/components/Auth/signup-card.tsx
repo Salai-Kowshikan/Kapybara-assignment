@@ -16,6 +16,7 @@ import TextField from "@/components/Form/text-field";
 import { registerUser } from "@/lib/client-actions/users";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useRouter } from "next/router";
 
 const SignUpSchema = Yup.object().shape({
   username: Yup.string().required("Required"),
@@ -25,6 +26,7 @@ const SignUpSchema = Yup.object().shape({
 
 function SignUpCard() {
   const mutation = useMutation({ mutationFn: registerUser });
+  const router = useRouter();
 
   return (
     <Card className="w-96">
@@ -45,6 +47,7 @@ function SignUpCard() {
             onSuccess: () => {
               toast.success("User registered successfully");
               setSubmitting(false);
+              router.replace("/login");
             },
             onError: (error) => {
               toast.error(error.message);

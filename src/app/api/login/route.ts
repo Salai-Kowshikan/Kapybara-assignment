@@ -43,7 +43,15 @@ export async function POST(request: NextRequest) {
       expiresIn: "1h",
     });
 
-    return NextResponse.json({ success: true, token }, { status: 200 });
+    const response = NextResponse.json({ success: true }, { status: 200 });
+    response.cookies.set("auth-token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60,
+      path: "/",
+    });
+
+    return response;
   } catch (error) {
     console.error("Error logging in:", error);
     return NextResponse.json(

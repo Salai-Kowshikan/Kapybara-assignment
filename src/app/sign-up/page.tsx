@@ -1,9 +1,9 @@
-import React from 'react'
+import SignUpCard from "@/components/Auth/signup-card"
 
 function SignUpPage() {
   return (
-    <div>
-      signup
+    <div className='flex justify-center items-center h-screen'>
+      <SignUpCard />
     </div>
   )
 }

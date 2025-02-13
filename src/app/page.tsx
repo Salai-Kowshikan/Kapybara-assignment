@@ -1,6 +1,6 @@
-import CTASection from "@/components/Landing/ctaSection";
-import FeatureSection from "@/components/Landing/featureSection";
-import HeroSection from "@/components/Landing/heroSection";
+import CTASection from "@/components/Landing/cta-section";
+import FeatureSection from "@/components/Landing/feature-section";
+import HeroSection from "@/components/Landing/hero-section";
 
 
 export default function Landing() {

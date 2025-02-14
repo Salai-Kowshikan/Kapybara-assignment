@@ -27,6 +27,9 @@ export function AppSidebar() {
 
   useEffect(() => {
     async function fetchUsername() {
+      if (!currentPath.startsWith("/dashboard")) {
+        return null;
+      }
       try {
         const data = await getUsername();
         setUsername(data.username);

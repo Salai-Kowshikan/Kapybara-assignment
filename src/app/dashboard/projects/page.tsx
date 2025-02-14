@@ -38,13 +38,13 @@ function ProjectsPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col justify-center px-16 gap-4">
+    <div className="h-screen flex flex-col px-16 gap-4">
       <h1 className="text-2xl font-bold"> Your projects </h1>
       {projects.map((project) => (
         <ProjectCard key={project.projectId} project={project} />
       ))}
       {projects.length === 0 && (
-        <div className="text-center">
+        <div className="text-center my-24">
           You don&apos;t have any projects yet. Start by creating one!
         </div>
       )}

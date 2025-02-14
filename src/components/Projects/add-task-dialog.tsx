@@ -83,6 +83,7 @@ const AddTaskDialog: React.FC<AddTaskDialogProps> = ({ projectId }) => {
                 placeholder="Due date"
                 name="dueDate"
                 type="date"
+                min={new Date().toISOString().split("T")[0]}
               />
               <SelectField
                 label="Priority"

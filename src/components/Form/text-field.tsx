@@ -7,6 +7,7 @@ interface TextFieldProps {
   name: string;
   placeholder: string;
   type?: string;
+  min?: string;
 }
 
 function TextField({
@@ -26,6 +27,7 @@ function TextField({
         {...props}
         placeholder={placeholder}
         type={type}
+        min={props.min}
         className="w-full p-2 border border-gray-300 rounded mt-1"
       />
       <ErrorMessage

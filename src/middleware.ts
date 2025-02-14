@@ -6,6 +6,8 @@ import { verifyJWT } from '@/lib/jwt'
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get('auth-token')?.value;
 
+  console.log('Cookies:', request.cookies);
+
   if (!token) {
     console.log('No token found, redirecting to login');
     return NextResponse.redirect(new URL('/login', request.url));

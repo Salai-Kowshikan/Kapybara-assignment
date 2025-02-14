@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { loginUser } from "@/lib/client-actions/users";
 import { useRouter } from "next/navigation";
 import { useLoadingStore } from "@/stores/loading-store";
+import { useUserStore } from "@/stores/user-store";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
@@ -28,6 +29,7 @@ function LoginCard() {
   const mutation = useMutation({ mutationFn: loginUser });
   const router = useRouter();
   const setLoading = useLoadingStore((state) => state.setLoading);
+  const setUser = useUserStore((state) => state.setUserId);
 
   return (
     <Card className="w-96">
@@ -46,7 +48,8 @@ function LoginCard() {
         onSubmit={(values, { setSubmitting }) => {
           setLoading(true);
           mutation.mutate(values, {
-            onSuccess: () => {
+            onSuccess: (data) => {
+              setUser(data.userId);
               toast.success("Logged in successfully");
               setSubmitting(false);
               setLoading(false);

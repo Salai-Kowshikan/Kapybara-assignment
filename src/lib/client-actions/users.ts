@@ -13,16 +13,13 @@ async function registerUser(values: {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || 'Failed to register user');
+    throw new Error(errorData.message || "Failed to register user");
   }
 
   return response.json();
 }
 
-async function loginUser(values: {
-  email: string;
-  password: string;
-}) {
+async function loginUser(values: { email: string; password: string }) {
   const response = await fetch("/api/login", {
     method: "POST",
     headers: {
@@ -33,10 +30,11 @@ async function loginUser(values: {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || 'Failed to login user');
+    throw new Error(errorData.message || "Failed to login user");
   }
 
-  return response.json();
+  const data = await response.json();
+  return data;
 }
 
 async function logoutUser() {
@@ -46,7 +44,7 @@ async function logoutUser() {
 
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(errorData.message || 'Failed to logout user');
+    throw new Error(errorData.message || "Failed to logout user");
   }
 
   return response.json();

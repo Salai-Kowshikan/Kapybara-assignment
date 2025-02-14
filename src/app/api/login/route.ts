@@ -5,12 +5,11 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET  || "";
+const JWT_SECRET = process.env.JWT_SECRET || "";
 
-if(JWT_SECRET == "") {
-    throw new Error("JWT_SECRET is not defined");
- }
-
+if (JWT_SECRET === "") {
+  throw new Error("JWT_SECRET is not defined");
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,7 +23,7 @@ export async function POST(request: NextRequest) {
     }
 
     const user = await db.select().from(users).where(eq(users.email, email));
-    if (!user) {
+    if (!user || user.length === 0) {
       return NextResponse.json(
         { success: false, message: "Invalid email or password" },
         { status: 401 }
@@ -39,11 +38,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const token = jwt.sign({ email: user[0].email }, JWT_SECRET, {
+    const token = jwt.sign({ userId: user[0].userId }, JWT_SECRET, {
       expiresIn: "1h",
     });
 
-    const response = NextResponse.json({ success: true }, { status: 200 });
+    const response = NextResponse.json({ success: true, userId: user[0].userId }, { status: 200 });
     response.cookies.set("auth-token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",

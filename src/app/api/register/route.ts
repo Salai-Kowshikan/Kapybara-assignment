@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import { users } from "@/db/schema/users";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
+import { v4 as uuidv4 } from "uuid";
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,8 +25,10 @@ export async function POST(request: NextRequest) {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+    const userId = uuidv4();
 
     await db.insert(users).values({
+      userId,
       username,
       email,
       password: hashedPassword,

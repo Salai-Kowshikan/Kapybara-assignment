@@ -7,7 +7,7 @@ function Footer() {
     <footer className="bg-black text-typography text-center px-12 py-8 flex flex-col items-center justify-center">
       <Separator className="bg-slate-800 my-4" />
       <div className="flex w-full my-16">
-        <Image src="/logo.png" alt="Kapybara" width={100} height={100} />
+        <Image src="/Logo.png" alt="Kapybara" width={100} height={100} />
         <div className="text-left">
           <h1 className="text-2xl font-bold"> Kapybara </h1>
           <p> Your tasks, your way. Get things done without the stress! </p>

@@ -27,7 +27,7 @@ function Header() {
       {currentPath.startsWith("/dashboard") && (
         <SidebarTrigger className="p-4" />
       )}
-      <Image src="/logo.png" alt="Kapybara" width={60} height={60} />
+      <Image src="/Logo.png" alt="Kapybara" width={60} height={60} />
       <span  className="text-xl">Kapybara - Your partner in crime</span>
       <div className="ml-auto flex gap-4">
         {currentPath.startsWith("/dashboard") ? (

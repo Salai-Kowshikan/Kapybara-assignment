@@ -1,5 +1,6 @@
-// filepath: /C:/Users/Kowshik/Documents/GitHub/Kapybara-assignment/src/components/Form/text-field.tsx
-import { useField, ErrorMessage } from 'formik';
+import { useField, ErrorMessage } from "formik";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 interface TextFieldProps {
   label: string;
@@ -8,20 +9,30 @@ interface TextFieldProps {
   type?: string;
 }
 
-function TextField({ label, placeholder, name, type , ...props }: TextFieldProps) {
+function TextField({
+  label,
+  placeholder,
+  name,
+  type,
+  ...props
+}: TextFieldProps) {
   const [field] = useField(name);
 
   return (
-    <div className="mb-4">
-      <label htmlFor={name}>{label}</label>
-      <input
+    <div className="my-4 flex flex-col gap-2">
+      <Label htmlFor={name}>{label}</Label>
+      <Input
         {...field}
         {...props}
         placeholder={placeholder}
         type={type}
         className="w-full p-2 border border-gray-300 rounded mt-1"
       />
-      <ErrorMessage name={name} component="div" className="text-red-500 text-sm" />
+      <ErrorMessage
+        name={name}
+        component="div"
+        className="text-red-500 text-sm"
+      />
     </div>
   );
 }

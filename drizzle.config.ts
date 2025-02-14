@@ -3,8 +3,8 @@ import { defineConfig } from "drizzle-kit";
 // import fs from 'fs'
 // import path from "path";
 
-if (!process.env.POSTGRES_URL) {
-  throw new Error("POSTGRES_URL environment variable is not set");
+if (!process.env.DATABASE_URL) {
+  throw new Error("DATABASE_URL environment variable is not set");
 }
 
 // const caPath = path.resolve(__dirname, 'certs', 'prod-ca-2021.crt');
@@ -14,7 +14,7 @@ if (!process.env.POSTGRES_URL) {
 export default defineConfig({
   dialect: "postgresql",
   dbCredentials: {
-    url: process.env.POSTGRES_URL!,
+    url: process.env.DATABASE_URL!,
     // host: process.env.POSTGRES_HOST!,
     // port: process.env.POSTGRES_PORT!,
     // user: process.env.POSTGRES_USER!,

@@ -1,5 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { SparklesIcon } from "lucide-react";
 
 function HeroSection() {
   return (
@@ -10,11 +12,14 @@ function HeroSection() {
           <span className="text-primary">productivity</span>
         </p>
         <p className="text-white text-xl">
-          {" "}
           Smart task management to keep you organized and productive
         </p>
         <div>
-          <Button>Get Started</Button>
+          <Link href="/dashboard" passHref>
+            <Button>
+              <SparklesIcon /> Get Started
+            </Button>
+          </Link>
         </div>
       </div>
       <div className="flex-1 flex items-center justify-center">

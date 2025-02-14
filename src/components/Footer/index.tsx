@@ -16,6 +16,7 @@ function Footer() {
         <div className="ml-auto text-left flex flex-col gap-4">
           <Link
             href="https://github.com/Salai-Kowshikan/Kapybara-assignment"
+            target="_blank"
             className=" hover:underline flex items-center justify-center"
             passHref
           >
@@ -33,6 +34,8 @@ function Footer() {
           <Link
             href="https://www.linkedin.com/in/salai-kowshikan-308341293/"
             className=" hover:underline flex items-center justify-center"
+            passHref
+            target="_blank"
           >
             <div className="flex gap-4 items-center mr-4 text-lg font-bold">
               <Image

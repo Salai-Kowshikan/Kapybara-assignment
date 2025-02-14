@@ -43,6 +43,11 @@ function ProjectsPage() {
       {projects.map((project) => (
         <ProjectCard key={project.projectId} project={project} />
       ))}
+      {projects.length === 0 && (
+        <div className="text-center">
+          You don't have any projects yet. Start by creating one!
+        </div>
+      )}
     </div>
   );
 }

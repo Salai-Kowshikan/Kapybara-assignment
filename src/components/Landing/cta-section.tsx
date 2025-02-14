@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { UsersIcon } from "lucide-react";
 
 function CTASection() {
   return (
@@ -13,7 +14,7 @@ function CTASection() {
       </p>
       <div className="flex items-center">
         <div className="flex-[3] flex justify-center items-center ">
-          <Button className="px-12 py-8 text-xl font-bold"> Join now! </Button>
+          <Button className="px-12 py-8 text-xl font-bold"> <UsersIcon />  Join now! </Button>
         </div>
         <p className="flex-[4] px-8">
           Be part of a community where task management meets real productivity.

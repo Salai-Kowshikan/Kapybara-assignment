@@ -36,7 +36,7 @@ function SignUpCard() {
         <CardTitle>Register for a Kapybara account</CardTitle>
         <CardDescription>
           Already registered? &nbsp;
-          <Link href="/login" replace scroll={false}>
+          <Link href="/login" className="hover:underline text-white" replace scroll={false}>
             Click here to login
           </Link>
         </CardDescription>

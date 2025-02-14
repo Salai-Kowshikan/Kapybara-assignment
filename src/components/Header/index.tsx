@@ -29,7 +29,7 @@ function Header() {
         <SidebarTrigger className="p-4" />
       )}
       <Image src="/Logo.png" alt="Kapybara" width={60} height={60} />
-      <span className="text-xl">Kapybara - Your partner in crime</span>
+      <span className="text-xl">Kapybara</span>
       <div className="ml-auto flex gap-4">
         {currentPath.startsWith("/dashboard") ? (
           <Button onClick={handleLogout}>

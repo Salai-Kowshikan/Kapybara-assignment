@@ -45,7 +45,7 @@ function ProjectsPage() {
       ))}
       {projects.length === 0 && (
         <div className="text-center">
-          You don't have any projects yet. Start by creating one!
+          You don&apos;t have any projects yet. Start by creating one!
         </div>
       )}
     </div>

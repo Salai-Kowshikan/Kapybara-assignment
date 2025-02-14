@@ -43,3 +43,25 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ success: false, message: "Failed to delete project" }, { status: 500 });
   }
 }
+
+export async function PUT(request: NextRequest) {
+  try {
+    const { projectId, title, description } = await request.json();
+
+    if (!projectId || !title || !description) {
+      return NextResponse.json(
+        { success: false, message: "Project ID, title, and description are required" },
+        { status: 400 }
+      );
+    }
+
+    await db.update(projects)
+      .set({ projectName: title, projectDesc: description })
+      .where(eq(projects.projectId, projectId));
+
+    return NextResponse.json({ success: true, message: "Project updated successfully" }, { status: 200 });
+  } catch (error) {
+    console.error("Error updating project:", error);
+    return NextResponse.json({ success: false, message: "Failed to update project" }, { status: 500 });
+  }
+}

@@ -46,7 +46,7 @@ function LoginCard() {
         onSubmit={(values, { setSubmitting }) => {
           setLoading(true);
           mutation.mutate(values, {
-            onSuccess: (data) => {
+            onSuccess: () => {
               toast.success("Logged in successfully");
               setSubmitting(false);
               setLoading(false);

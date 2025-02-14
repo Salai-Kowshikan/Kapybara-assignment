@@ -24,12 +24,21 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function POST(request: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(request: NextRequest) {
   try {
-    const projectId = params.id;
-    const { taskName, userId, dueDate, priority, status, taskDesc } = await request.json();
+    const cookies = request.cookies;
+    const userId = cookies.get('user-id')?.value;
 
-    if (!taskName || !userId || !dueDate || !priority || !status || !taskDesc) {
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, message: "User ID is missing" },
+        { status: 400 }
+      );
+    }
+
+    const { taskName, projectId, dueDate, priority, taskDesc } = await request.json();
+
+    if (!taskName || !projectId || !dueDate || !priority || !taskDesc) {
       return NextResponse.json(
         { success: false, message: "All fields are required" },
         { status: 400 }
@@ -37,6 +46,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     }
 
     const taskId = uuidv4();
+    const status = 0; // Set status to 0
 
     await db.insert(tasks).values({
       taskId,

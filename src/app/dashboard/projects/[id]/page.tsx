@@ -6,6 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useProjectStore } from "@/stores/projects-store";
 import { fetchProjects } from "@/lib/client-actions/projects";
 import { Project } from "@/types/project";
+import ProjectEditDialog from "@/components/Projects/edit-project-dialog";
+import AddTaskDialog from "@/components/Projects/add-task-dialog";
 
 function ProjectPage() {
   const { id } = useParams() as { id: string };
@@ -16,7 +18,11 @@ function ProjectPage() {
     projects.find((project) => project.projectId === id)
   );
 
-  const { data: projectData, error: projectError, isLoading: projectLoading } = useQuery({
+  const {
+    data: projectData,
+    error: projectError,
+    isLoading: projectLoading,
+  } = useQuery({
     queryKey: ["projects"],
     queryFn: fetchProjects,
     enabled: !currentProject,
@@ -25,8 +31,11 @@ function ProjectPage() {
   useEffect(() => {
     if (projectData) {
       setProjects(projectData.projects);
+      setCurrentProject(
+        projectData.projects.find((project) => project.projectId === id)
+      );
     }
-  }, [projectData, setProjects]);
+  }, [projectData, setProjects, id]);
 
   if (!currentProject && projectLoading) {
     return <div>Loading project...</div>;
@@ -40,7 +49,15 @@ function ProjectPage() {
     <div>
       <h1>Project: {currentProject?.projectName}</h1>
       <p>Description: {currentProject?.projectDesc}</p>
+      {currentProject && (
+        <ProjectEditDialog
+          project={currentProject}
+          projectId={id}
+          setCurrentProject={setCurrentProject}
+        />
+      )}
       <h2>Tasks</h2>
+      <AddTaskDialog projectId={id} />
     </div>
   );
 }

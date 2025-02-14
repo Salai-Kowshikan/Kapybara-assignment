@@ -44,7 +44,7 @@ const ProjectEditDialog: React.FC<ProjectEditDialogProps> = ({
       queryClient.invalidateQueries({ queryKey: ["projects"] });
       setCurrentProject(data.project);
     },
-    onError: (error: any) => {
+    onError: (error) => {
       toast.error(error.message);
     },
   });

@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useProjectStore } from "@/stores/projects-store";
 import { fetchProjects } from "@/lib/client-actions/projects";
-import { Project } from "@/types/project";
+import { fetchTasks } from "@/lib/client-actions/tasks";
+import { Project, Task } from "@/types/project";
 import ProjectEditDialog from "@/components/Projects/edit-project-dialog";
 import AddTaskDialog from "@/components/Projects/add-task-dialog";
+import TaskCard from "@/components/Projects/task-card";
 
 function ProjectPage() {
   const { id } = useParams() as { id: string };
@@ -28,6 +30,12 @@ function ProjectPage() {
     enabled: !currentProject,
   });
 
+  const { data: taskData, error: taskError } = useQuery({
+    queryKey: ["tasks", id],
+    queryFn: () => fetchTasks(id),
+    enabled: !!currentProject,
+  });
+
   useEffect(() => {
     if (projectData) {
       setProjects(projectData.projects);
@@ -45,6 +53,10 @@ function ProjectPage() {
     return <div>Error: {projectError.message}</div>;
   }
 
+  if (taskError) {
+    return <div>Error: {taskError.message}</div>;
+  }
+
   return (
     <div>
       <h1>Project: {currentProject?.projectName}</h1>
@@ -57,6 +69,15 @@ function ProjectPage() {
         />
       )}
       <h2>Tasks</h2>
+      {taskData?.tasks.length ? (
+        <div>
+          {taskData.tasks.map((task: Task) => (
+            <TaskCard key={task.taskId} task={task} />
+          ))}
+        </div>
+      ) : (
+        <p>No tasks found</p>
+      )}
       <AddTaskDialog projectId={id} />
     </div>
   );

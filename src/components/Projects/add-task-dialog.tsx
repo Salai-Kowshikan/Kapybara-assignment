@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { toast } from "sonner";
 import {
@@ -17,14 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { addTask } from "@/lib/client-actions/tasks";
 import TextField from "@/components/Form/text-field";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import SelectField from "../Form/select-field";
+import SelectField from "@/components/Form/select-field";
 
 const TaskSchema = Yup.object().shape({
   taskName: Yup.string().required("Required"),

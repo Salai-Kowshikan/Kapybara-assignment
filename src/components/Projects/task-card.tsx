@@ -10,6 +10,7 @@ import {
 import EditTaskDialog from "./edit-task-dialog";
 import CompleteTaskButton from "./complete-task-button";
 import DeleteTaskButton from "./delete-task-button";
+import { Badge } from "../ui/badge";
 
 interface TaskCardProps {
   task: Task;
@@ -38,18 +39,24 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, projectId }) => {
     <Card key={task.taskId}>
       <CardHeader>
         <CardTitle>{task.taskName}</CardTitle>
-        <CardDescription>{task.dueDate}</CardDescription>
+        <CardDescription>
+          <div className="flex items-center justify-between">
+            Due on {task.dueDate}
+            <Badge className="px-2 gap-2">
+              <div
+                className={`w-2 h-2 rounded-full ${getPriorityColor(
+                  task.priority
+                )}`}
+              />
+              <span>{getStatusText(task.status)}</span>
+            </Badge>
+          </div>
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <p>{task.taskDesc}</p>
-        <div className="flex items-center gap-2">
-          <div
-            className={`w-4 h-4 rounded-full ${getPriorityColor(task.priority)}`}
-          />
-          <span>{getStatusText(task.status)}</span>
-        </div>
+        <p className="text-lg">{task.taskDesc}</p>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex justify-end gap-2">
         <EditTaskDialog task={task} />
         <DeleteTaskButton taskId={task.taskId} projectId={projectId} />
         {task.status === 0 && (

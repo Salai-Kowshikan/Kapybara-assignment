@@ -10,11 +10,14 @@ import { Project, Task } from "@/types/project";
 import ProjectEditDialog from "@/components/Projects/edit-project-dialog";
 import AddTaskDialog from "@/components/Projects/add-task-dialog";
 import TaskCard from "@/components/Projects/task-card";
+import { Separator } from "@/components/ui/separator";
+import { useLoadingStore } from "@/stores/loading-store";
 
 function ProjectPage() {
   const { id } = useParams() as { id: string };
   const projects = useProjectStore((state) => state.projects);
   const setProjects = useProjectStore((state) => state.setProjects);
+  const setLoading = useLoadingStore((state) => state.setLoading);
 
   const [currentProject, setCurrentProject] = useState<Project | undefined>(
     projects.find((project) => project.projectId === id)
@@ -29,6 +32,10 @@ function ProjectPage() {
     queryFn: fetchProjects,
     enabled: !currentProject,
   });
+
+  useEffect(() => {
+    setLoading(projectLoading || !currentProject);
+  }, [projectLoading, currentProject, setLoading]);
 
   const { data: taskData, error: taskError } = useQuery({
     queryKey: ["tasks", id],
@@ -45,40 +52,66 @@ function ProjectPage() {
     }
   }, [projectData, setProjects, id]);
 
+  useEffect(() => {
+    setLoading(taskData === undefined && !!currentProject);
+  }, [taskData, currentProject, setLoading]);
+
   if (!currentProject && projectLoading) {
-    return <div>Loading project...</div>;
+    return (
+      <div className="h-screen flex flex-col gap-4 px-8">
+        Loading project...
+      </div>
+    );
   }
 
   if (projectError) {
-    return <div>Error: {projectError.message}</div>;
+    return (
+      <div className="h-screen flex flex-col gap-4 px-8">
+        Error: {projectError.message}
+      </div>
+    );
   }
 
   if (taskError) {
-    return <div>Error: {taskError.message}</div>;
+    return (
+      <div className="h-screen flex flex-col gap-4 px-8">
+        Error: {taskError.message}
+      </div>
+    );
   }
 
   return (
-    <div>
-      <h1>Project: {currentProject?.projectName}</h1>
-      <p>Description: {currentProject?.projectDesc}</p>
-      {currentProject && (
-        <ProjectEditDialog
-          project={currentProject}
-          projectId={id}
-          setCurrentProject={setCurrentProject}
-        />
-      )}
-      <h2>Tasks</h2>
+    <div className="h-screen flex flex-col gap-4 px-8">
+      <div className="flex items-center gap-2 ">
+        <div className="flex-1">
+          <h1 className="font-bold text-2xl">{currentProject?.projectName}</h1>
+          <p className="text-xl">{currentProject?.projectDesc}</p>
+        </div>
+
+        <AddTaskDialog projectId={id} />
+        {currentProject && (
+          <ProjectEditDialog
+            project={currentProject}
+            projectId={id}
+            setCurrentProject={setCurrentProject}
+          />
+        )}
+      </div>
+      <Separator />
+      <h1 className="font-bold text-2xl">Tasks</h1>
       {taskData?.tasks.length ? (
-        <div>
+        <div className="flex flex-col gap-4">
           {taskData.tasks.map((task: Task) => (
-            <TaskCard projectId={currentProject?.projectId || ''} key={task.taskId} task={task} />
+            <TaskCard
+              projectId={currentProject?.projectId || ""}
+              key={task.taskId}
+              task={task}
+            />
           ))}
         </div>
       ) : (
         <p>No tasks found</p>
       )}
-      <AddTaskDialog projectId={id} />
     </div>
   );
 }

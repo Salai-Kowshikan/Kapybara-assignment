@@ -6,12 +6,14 @@ import { Project } from "@/types/project";
 import ProjectCard from "@/components/Projects/project-card";
 import { useProjectStore } from "@/stores/projects-store";
 import { fetchProjects } from "@/lib/client-actions/projects";
+import { useLoadingStore } from "@/stores/loading-store";
 
 function ProjectsPage() {
   const { data, error, isLoading } = useQuery<{ projects: Project[] }>({
     queryKey: ["projects"],
     queryFn: fetchProjects,
   });
+  const setLoading = useLoadingStore((state) => state.setLoading);
 
   const setProjects = useProjectStore((state) => state.setProjects);
   const projects = useProjectStore((state) => state.projects);
@@ -23,6 +25,10 @@ function ProjectsPage() {
     }
   }, [data, setProjects]);
 
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading, setLoading]);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -32,13 +38,11 @@ function ProjectsPage() {
   }
 
   return (
-    <div>
-      <h1>Projects</h1>
-      <ul>
-        {projects.map((project) => (
-          <ProjectCard key={project.projectId} project={project} />
-        ))}
-      </ul>
+    <div className="h-screen flex flex-col justify-center px-16 gap-4">
+      <h1 className="text-2xl font-bold"> Your projects </h1>
+      {projects.map((project) => (
+        <ProjectCard key={project.projectId} project={project} />
+      ))}
     </div>
   );
 }

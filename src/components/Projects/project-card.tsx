@@ -12,6 +12,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteProject } from "@/lib/client-actions/projects";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Trash2Icon } from "lucide-react";
 
 interface ProjectCardProps {
   project: Project;
@@ -47,8 +48,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
         <CardDescription>{project.projectDesc}</CardDescription>
       </CardHeader>
       <CardContent></CardContent>
-      <CardFooter>
-        <Button onClick={handleDelete}>Delete</Button>
+      <CardFooter className="flex justify-end gap-8">
+        <Button variant="destructive" onClick={handleDelete}>
+          <Trash2Icon />
+        </Button>
         <Button onClick={handleViewTasks}>View Tasks</Button>
       </CardFooter>
     </Card>

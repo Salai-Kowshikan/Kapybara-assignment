@@ -44,7 +44,13 @@ export function AppSidebar() {
 
   return (
     <Sidebar>
-      <SidebarHeader>Hey {username}! Get work done with us</SidebarHeader>
+      <SidebarHeader className="text-xl font-bold">
+        <p className="my-4">
+          Hey <span className="text-primary">{username}</span>!
+          <br />
+          Get work done with us
+        </p>
+      </SidebarHeader>
       <SidebarSeparator />
       <SidebarContent>
         <SidebarGroup>

@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { updateTask } from "@/lib/client-actions/tasks";
 import TextField from "@/components/Form/text-field";
 import SelectField from "@/components/Form/select-field";
+import { PencilIcon } from "lucide-react";
 
 const TaskSchema = Yup.object().shape({
   taskName: Yup.string().required("Required"),
@@ -54,7 +55,7 @@ const EditTaskDialog: React.FC<EditTaskDialogProps> = ({ task }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Edit Task</Button>
+        <Button> <PencilIcon /> </Button>
       </DialogTrigger>
       <Formik
         initialValues={{

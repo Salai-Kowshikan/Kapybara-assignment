@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { addTask } from "@/lib/client-actions/tasks";
 import TextField from "@/components/Form/text-field";
 import SelectField from "@/components/Form/select-field";
+import { CirclePlusIcon } from "lucide-react";
 
 const TaskSchema = Yup.object().shape({
   taskName: Yup.string().required("Required"),
@@ -46,7 +47,9 @@ const AddTaskDialog: React.FC<AddTaskDialogProps> = ({ projectId }) => {
 
   return (
     <Dialog>
-      <DialogTrigger>Add new task</DialogTrigger>
+      <DialogTrigger asChild>
+        <Button> <CirclePlusIcon /> Add new task</Button>
+      </DialogTrigger>
       <Formik
         initialValues={{
           taskName: "",

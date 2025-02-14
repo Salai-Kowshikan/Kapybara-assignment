@@ -2,8 +2,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { completeTask } from "@/lib/client-actions/tasks";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { CheckIcon } from "lucide-react";
 
-function CompleteTaskButton({ taskId, projectId }: { taskId: string, projectId: string }) {
+function CompleteTaskButton({
+  taskId,
+  projectId,
+}: {
+  taskId: string;
+  projectId: string;
+}) {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -19,7 +26,7 @@ function CompleteTaskButton({ taskId, projectId }: { taskId: string, projectId: 
 
   return (
     <Button onClick={() => mutation.mutate(taskId)}>
-      Mark as Completed
+      <CheckIcon /> Mark as Completed
     </Button>
   );
 }

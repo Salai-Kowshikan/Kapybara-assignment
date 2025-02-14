@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteTask } from "@/lib/client-actions/tasks";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Trash2Icon } from "lucide-react";
 
 function DeleteTaskButton({ taskId, projectId }: { taskId: string, projectId: string }) {
   const queryClient = useQueryClient();
@@ -18,8 +19,8 @@ function DeleteTaskButton({ taskId, projectId }: { taskId: string, projectId: st
   });
 
   return (
-    <Button onClick={() => mutation.mutate(taskId)}>
-      Delete
+    <Button variant="destructive" onClick={() => mutation.mutate(taskId)}>
+      <Trash2Icon />
     </Button>
   );
 }

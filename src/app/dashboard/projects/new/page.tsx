@@ -1,6 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -22,56 +28,58 @@ function NewProjectsPage() {
   const setLoading = useLoadingStore((state) => state.setLoading);
 
   return (
-    <Card className="w-96">
-      <CardHeader>
-        <CardTitle>Create a New Project</CardTitle>
-      </CardHeader>
-      <Formik
-        initialValues={{ projectName: "", projectDesc: "" }}
-        validationSchema={ProjectSchema}
-        onSubmit={(values, { setSubmitting }) => {
-          setLoading(true);
-          mutation.mutate(values, {
-            onSuccess: () => {
-              setLoading(false);
-              toast.success("Project created successfully");
-              setSubmitting(false);
-              router.replace("/dashboard/projects");
-            },
-            onError: (error) => {
-              setLoading(false);
-              toast.error(error.message);
-              setSubmitting(false);
-            },
-          });
-          setSubmitting(false);
-        }}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <CardContent>
-              <TextField
-                label="Project Name"
-                name="projectName"
-                type="text"
-                placeholder="Project Name"
-              />
-              <TextField
-                label="Project Description"
-                name="projectDesc"
-                type="text"
-                placeholder="Project Description"
-              />
-            </CardContent>
-            <CardFooter className="flex justify-end">
-              <Button type="submit" disabled={isSubmitting}>
-                Create Project
-              </Button>
-            </CardFooter>
-          </Form>
-        )}
-      </Formik>
-    </Card>
+    <div className="h-screen flex justify-center items-center">
+      <Card className="w-96">
+        <CardHeader>
+          <CardTitle>Create a New Project</CardTitle>
+        </CardHeader>
+        <Formik
+          initialValues={{ projectName: "", projectDesc: "" }}
+          validationSchema={ProjectSchema}
+          onSubmit={(values, { setSubmitting }) => {
+            setLoading(true);
+            mutation.mutate(values, {
+              onSuccess: () => {
+                setLoading(false);
+                toast.success("Project created successfully");
+                setSubmitting(false);
+                router.replace("/dashboard/projects");
+              },
+              onError: (error) => {
+                setLoading(false);
+                toast.error(error.message);
+                setSubmitting(false);
+              },
+            });
+            setSubmitting(false);
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              <CardContent>
+                <TextField
+                  label="Project Name"
+                  name="projectName"
+                  type="text"
+                  placeholder="Project Name"
+                />
+                <TextField
+                  label="Project Description"
+                  name="projectDesc"
+                  type="text"
+                  placeholder="Project Description"
+                />
+              </CardContent>
+              <CardFooter className="flex justify-end">
+                <Button type="submit" disabled={isSubmitting}>
+                  Create Project
+                </Button>
+              </CardFooter>
+            </Form>
+          )}
+        </Formik>
+      </Card>
+    </div>
   );
 }
 

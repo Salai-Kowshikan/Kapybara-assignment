@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import TextField from "@/components/Form/text-field";
 import { updateProject } from "@/lib/client-actions/projects";
 import { Project } from "@/types/project";
+import { PencilIcon } from "lucide-react";
 
 const ProjectSchema = Yup.object().shape({
   projectName: Yup.string().required("Required"),
@@ -51,7 +52,12 @@ const ProjectEditDialog: React.FC<ProjectEditDialogProps> = ({
 
   return (
     <Dialog>
-      <DialogTrigger>Edit</DialogTrigger>
+      <DialogTrigger asChild>
+        <Button>
+          {" "}
+          <PencilIcon /> Edit
+        </Button>
+      </DialogTrigger>
       <Formik
         initialValues={{
           projectName: project.projectName || "",

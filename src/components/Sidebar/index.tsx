@@ -16,9 +16,27 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CirclePlusIcon, FolderKanbanIcon, GaugeIcon } from "lucide-react";
+import { useEffect } from "react";
+import { useUserStore } from "@/stores/user-store";
+import { getUsername } from "@/lib/client-actions/users";
 
 export function AppSidebar() {
   const currentPath = usePathname();
+  const setUsername = useUserStore((state) => state.setUsername);
+  const username = useUserStore((state) => state.username);
+
+  useEffect(() => {
+    async function fetchUsername() {
+      try {
+        const data = await getUsername();
+        setUsername(data.username);
+      } catch (error) {
+        console.error("Failed to fetch username:", error);
+      }
+    }
+
+    fetchUsername();
+  }, [setUsername]);
 
   if (!currentPath.startsWith("/dashboard")) {
     return null;
@@ -26,7 +44,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar>
-      <SidebarHeader>Get work done with us</SidebarHeader>
+      <SidebarHeader>Hey {username}! Get work done with us</SidebarHeader>
       <SidebarSeparator />
       <SidebarContent>
         <SidebarGroup>
@@ -67,13 +85,11 @@ export function AppSidebar() {
         </SidebarGroup>
         <SidebarSeparator />
         <SidebarGroup>
-        <SidebarGroupLabel>Recents</SidebarGroupLabel>
+          <SidebarGroupLabel>Recents</SidebarGroupLabel>
           <SidebarMenu>
             <SidebarMenuItem>
               <Link href="/dashboard" passHref>
-                <SidebarMenuButton>
-                  Example project
-                </SidebarMenuButton>
+                <SidebarMenuButton>Example project</SidebarMenuButton>
               </Link>
             </SidebarMenuItem>
           </SidebarMenu>

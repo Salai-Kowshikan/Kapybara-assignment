@@ -15,7 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { addTask } from "@/lib/client-actions/tasks";
+import { updateTask } from "@/lib/client-actions/tasks";
 import TextField from "@/components/Form/text-field";
 import SelectField from "@/components/Form/select-field";
 
@@ -26,18 +26,25 @@ const TaskSchema = Yup.object().shape({
   taskDesc: Yup.string().required("Required"),
 });
 
-interface AddTaskDialogProps {
-  projectId: string;
+interface EditTaskDialogProps {
+  task: {
+    taskId: string;
+    taskName: string;
+    dueDate: string;
+    priority: number;
+    taskDesc: string;
+    projectId: string;
+  };
 }
 
-const AddTaskDialog: React.FC<AddTaskDialogProps> = ({ projectId }) => {
+const EditTaskDialog: React.FC<EditTaskDialogProps> = ({ task }) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: addTask,
+    mutationFn: updateTask,
     onSuccess: () => {
-      toast.success("Task added successfully");
-      queryClient.invalidateQueries({ queryKey: ["tasks", projectId] });
+      toast.success("Task updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["tasks", task.projectId] });
     },
     onError: (error) => {
       toast.error(error.message);
@@ -46,26 +53,32 @@ const AddTaskDialog: React.FC<AddTaskDialogProps> = ({ projectId }) => {
 
   return (
     <Dialog>
-      <DialogTrigger>Add new task</DialogTrigger>
+      <DialogTrigger asChild>
+        <Button>Edit Task</Button>
+      </DialogTrigger>
       <Formik
         initialValues={{
-          taskName: "",
-          dueDate: "",
-          priority: 1,
-          taskDesc: "",
+          taskName: task.taskName,
+          dueDate: task.dueDate,
+          priority: task.priority,
+          taskDesc: task.taskDesc,
         }}
         validationSchema={TaskSchema}
         onSubmit={(values, { setSubmitting }) => {
-          mutation.mutate({ ...values, projectId });
+          mutation.mutate({
+            ...values,
+            taskId: task.taskId,
+            projectId: task.projectId,
+          });
           setSubmitting(false);
         }}
       >
         {({ isSubmitting }) => (
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Add new task</DialogTitle>
+              <DialogTitle>Edit task</DialogTitle>
               <DialogDescription>
-                Fill in the details to add a new task.
+                Fill in the details to edit the task.
               </DialogDescription>
             </DialogHeader>
             <Form>
@@ -84,7 +97,7 @@ const AddTaskDialog: React.FC<AddTaskDialogProps> = ({ projectId }) => {
               <SelectField
                 label="Priority"
                 name="priority"
-                placeholder="beep"
+                placeholder="Select priority"
                 list={[
                   {
                     value: "0",
@@ -109,7 +122,7 @@ const AddTaskDialog: React.FC<AddTaskDialogProps> = ({ projectId }) => {
               <DialogFooter>
                 <DialogClose asChild>
                   <Button type="submit" disabled={isSubmitting}>
-                    Add Task
+                    Update Task
                   </Button>
                 </DialogClose>
               </DialogFooter>
@@ -121,4 +134,4 @@ const AddTaskDialog: React.FC<AddTaskDialogProps> = ({ projectId }) => {
   );
 };
 
-export default AddTaskDialog;
+export default EditTaskDialog;

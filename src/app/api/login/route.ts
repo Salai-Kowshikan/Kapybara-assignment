@@ -51,13 +51,13 @@ export async function POST(request: NextRequest) {
     response.cookies.set("auth-token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60,
+      maxAge: 60 * 60 * 24,
       path: "/",
     });
     response.cookies.set("user-id", userId, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60,
+      maxAge: 60 * 60 * 24,
       path: "/",
     });
 

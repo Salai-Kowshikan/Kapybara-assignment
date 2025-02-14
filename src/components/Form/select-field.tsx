@@ -22,7 +22,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
   list,
   ...props
 }) => {
-  const [field, meta, helpers] = useField(name);
+  const [field,, helpers] = useField(name);
 
   return (
     <div className="my-4">

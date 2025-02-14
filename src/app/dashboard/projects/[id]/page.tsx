@@ -72,7 +72,7 @@ function ProjectPage() {
       {taskData?.tasks.length ? (
         <div>
           {taskData.tasks.map((task: Task) => (
-            <TaskCard key={task.taskId} task={task} />
+            <TaskCard projectId={currentProject?.projectId || ''} key={task.taskId} task={task} />
           ))}
         </div>
       ) : (

@@ -7,13 +7,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import EditTaskDialog from "./edit-task-dialog";
+import CompleteTaskButton from "./complete-task-button";
+import DeleteTaskButton from "./delete-task-button";
 
 interface TaskCardProps {
   task: Task;
+  projectId: string;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
+const TaskCard: React.FC<TaskCardProps> = ({ task, projectId }) => {
   const getPriorityColor = (priority: number) => {
     switch (priority) {
       case 0:
@@ -27,6 +30,10 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
     }
   };
 
+  const getStatusText = (status: number) => {
+    return status === 1 ? "Completed" : "Pending";
+  };
+
   return (
     <Card key={task.taskId}>
       <CardHeader>
@@ -34,25 +41,22 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
         <CardDescription>{task.dueDate}</CardDescription>
       </CardHeader>
       <CardContent>
-        {task.taskDesc}
-        <div
-          className={`w-4 h-4 rounded-full ${getPriorityColor(task.priority)}`}
-        />
+        <p>{task.taskDesc}</p>
+        <div className="flex items-center gap-2">
+          <div
+            className={`w-4 h-4 rounded-full ${getPriorityColor(task.priority)}`}
+          />
+          <span>{getStatusText(task.status)}</span>
+        </div>
       </CardContent>
       <CardFooter>
-        <Button>Edit</Button>
-        <Button>Delete</Button>
+        <EditTaskDialog task={task} />
+        <DeleteTaskButton taskId={task.taskId} projectId={projectId} />
+        {task.status === 0 && (
+          <CompleteTaskButton taskId={task.taskId} projectId={projectId} />
+        )}
       </CardFooter>
     </Card>
-
-    // <div className="border p-4 rounded-md shadow-md mb-4">
-    //   <div className="flex items-center justify-between">
-    //     <h3 className="text-lg font-bold">{task.taskName}</h3>
-    //     <div className={`w-4 h-4 rounded-full ${getPriorityColor(task.priority)}`} />
-    //   </div>
-    //   <p className="text-sm text-gray-600">{task.taskDesc}</p>
-    //   <p className="text-sm text-gray-600">Due Date: {task.dueDate}</p>
-    // </div>
   );
 };
 

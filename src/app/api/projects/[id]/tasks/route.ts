@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     }
 
     const taskId = uuidv4();
-    const status = 0; // Set status to 0
+    const status = 0;
 
     await db.insert(tasks).values({
       taskId,
@@ -63,5 +63,52 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Error adding task:", error);
     return NextResponse.json({ success: false, message: "Failed to add task" }, { status: 500 });
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const { taskId, taskName, dueDate, priority, taskDesc } = await request.json();
+
+    if (!taskId || !taskName || !dueDate || !priority || !taskDesc) {
+      return NextResponse.json(
+        { success: false, message: "All fields are required" },
+        { status: 400 }
+      );
+    }
+
+    await db.update(tasks)
+      .set({
+        taskName,
+        dueDate,
+        priority,
+        taskDesc,
+      })
+      .where(eq(tasks.taskId, taskId));
+
+    return NextResponse.json({ success: true, message: "Task updated successfully" }, { status: 200 });
+  } catch (error) {
+    console.error("Error updating task:", error);
+    return NextResponse.json({ success: false, message: "Failed to update task" }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { taskId } = await request.json();
+
+    if (!taskId) {
+      return NextResponse.json(
+        { success: false, message: "Task ID is required" },
+        { status: 400 }
+      );
+    }
+
+    await db.delete(tasks).where(eq(tasks.taskId, taskId));
+
+    return NextResponse.json({ success: true, message: "Task deleted successfully" }, { status: 200 });
+  } catch (error) {
+    console.error("Error deleting task:", error);
+    return NextResponse.json({ success: false, message: "Failed to delete task" }, { status: 500 });
   }
 }

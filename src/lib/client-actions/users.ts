@@ -50,4 +50,24 @@ async function logoutUser() {
   return response.json();
 }
 
-export { registerUser, loginUser, logoutUser };
+async function getUsername() {
+  const response = await fetch("/api/user", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Failed to fetch username");
+  }
+
+  const data = await response.json();
+  return data;
+}
+
+export { registerUser, loginUser, logoutUser, getUsername };
+
+
+

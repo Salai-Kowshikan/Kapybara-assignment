@@ -1,11 +1,11 @@
 import {create} from 'zustand';
 
 interface UserState {
-  userId: string | null;
-  setUserId: (userId: string | null) => void;
+  username: string | null;
+  setUsername: (username: string | null) => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
-  userId: null,
-  setUserId: (userId) => set({ userId }),
+  username: null,
+  setUsername: (username) => set({ username }),
 }));

@@ -4,9 +4,10 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { usePathname, useRouter } from "next/navigation";
-import {toast} from 'sonner';
+import { toast } from "sonner";
 import { logoutUser } from "@/lib/client-actions/users";
 import { useLoadingStore } from "@/stores/loading-store";
+import Image from "next/image";
 
 function Header() {
   const currentPath = usePathname();
@@ -22,11 +23,12 @@ function Header() {
   };
 
   return (
-    <header className="sticky top-0 flex w-full gap-8 p-2 items-center h-16 bg-white shadow-md z-10">
+    <header className="sticky top-0 flex w-full gap-8 py-4 px-6 items-center h-24 bg-transparent text-white z-10">
       {currentPath.startsWith("/dashboard") && (
         <SidebarTrigger className="p-4" />
       )}
-      Kapybara - Your partner in crime
+      <Image src="/logo.png" alt="Kapybara" width={60} height={60} />
+      <span  className="text-xl">Kapybara - Your partner in crime</span>
       <div className="ml-auto flex gap-4">
         {currentPath.startsWith("/dashboard") ? (
           <Button onClick={handleLogout}>Logout</Button>

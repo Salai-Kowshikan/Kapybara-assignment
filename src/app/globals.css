@@ -53,7 +53,8 @@
     --sk-color: #FFF;
     
 
-    --background: 0 0% 100%;
+    --background: 0, 0%, 9%;
+    --typography: 180, 0%, 100%;
 
     --foreground: 0 0% 3.9%;
 
@@ -65,7 +66,7 @@
 
     --popover-foreground: 0 0% 3.9%;
 
-    --primary: 0 0% 9%;
+    --primary: 85, 75%, 24%;
 
     --primary-foreground: 0 0% 98%;
 

@@ -32,12 +32,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background`}
       >
         <QueryClientProvider>
           <SidebarProvider>
             <AppSidebar />
-            <div className="flex flex-col w-full">
+            <div className=" w-full">
               <Header />
               {children}
               <Footer />

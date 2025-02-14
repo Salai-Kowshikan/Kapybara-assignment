@@ -42,8 +42,19 @@ export async function POST(request: NextRequest) {
       expiresIn: "1h",
     });
 
-    const response = NextResponse.json({ success: true, userId: user[0].userId }, { status: 200 });
+    const userId = user[0].userId;
+
+    const response = NextResponse.json(
+      { success: true, userId },
+      { status: 200 }
+    );
     response.cookies.set("auth-token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60,
+      path: "/",
+    });
+    response.cookies.set("user-id", userId, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60,

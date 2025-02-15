@@ -55,9 +55,7 @@ function LoginCard() {
               toast.success("Logged in successfully");
               setSubmitting(false);
               setLoading(false);
-              setTimeout(() => {
-                router.replace("/dashboard");
-              }, 1000);
+              router.replace("/dashboard");
             },
             onError: (error) => {
               toast.error(error.message);

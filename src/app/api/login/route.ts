@@ -3,7 +3,8 @@ import { eq } from "drizzle-orm";
 import { users } from "@/db/schema/users";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { SignJWT } from "jose";
+import { cookies } from "next/headers";
 
 const JWT_SECRET = process.env.JWT_SECRET || "";
 
@@ -12,6 +13,7 @@ if (JWT_SECRET === "") {
 }
 
 export async function POST(request: NextRequest) {
+  const cookieStore = await cookies();
   try {
     const { email, password } = await request.json();
 
@@ -38,9 +40,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const token = jwt.sign({ userId: user[0].userId }, JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = await new SignJWT({ userId: user[0].userId })
+      .setProtectedHeader({ alg: "HS256" })
+      .setExpirationTime("1h")
+      .sign(new TextEncoder().encode(JWT_SECRET));
 
     const userId = user[0].userId;
 
@@ -48,13 +51,13 @@ export async function POST(request: NextRequest) {
       { success: true, userId },
       { status: 200 }
     );
-    response.cookies.set("auth-token", token, {
+    cookieStore.set("auth-token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60 * 24,
       path: "/",
     });
-    response.cookies.set("user-id", userId, {
+    cookieStore.set("user-id", userId, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60 * 24,

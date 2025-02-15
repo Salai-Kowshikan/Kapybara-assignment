@@ -9,6 +9,8 @@ async function registerUser(values: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(values),
+    
+    cache: "no-cache",
   });
 
   if (!response.ok) {
@@ -26,6 +28,7 @@ async function loginUser(values: { email: string; password: string }) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(values),
+    cache: "no-cache",
   });
 
   if (!response.ok) {
@@ -40,13 +43,14 @@ async function loginUser(values: { email: string; password: string }) {
 async function logoutUser() {
   const response = await fetch("/api/logout", {
     method: "POST",
+    cache: "no-cache",
   });
 
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.message || "Failed to logout user");
   }
-
+  
   return response.json();
 }
 

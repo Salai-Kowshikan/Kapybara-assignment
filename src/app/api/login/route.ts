@@ -54,13 +54,13 @@ export async function POST(request: NextRequest) {
     cookieStore.set("auth-token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24,
+      maxAge: 60 * 60 ,
       path: "/",
     });
     cookieStore.set("user-id", userId, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24,
+      maxAge: 60 * 60 ,
       path: "/",
     });
 

@@ -39,7 +39,7 @@ async function loginUser(values: { email: string; password: string }) {
 
 async function logoutUser() {
   const response = await fetch("/api/logout", {
-    method: "GET",
+    method: "POST",
   });
 
   if (!response.ok) {
